@@ -112,31 +112,31 @@ void TRIE_Traversal(Node* current, char* s, vector<string>& res, bool& loop)
     }
 }
 
-bool start(Node* root, string s, vector<string>& res) 
+void start(Node* root, string s, vector<string>& res) 
 {
     Node* current = root;
     for (int i = 0; i < s.length(); i++) 
     {
         Node* tmp = child_locator(current, s[i]);
         if (tmp == NULL)
-            return false;
+            return;
         current = tmp;
     }
     char c[100];
     strcpy(c, s.c_str());
     bool loop = true;
     TRIE_Traversal(current, c, res, loop);
-    return true;
+    return;
 }
 
-bool Dictionary_loading(Node* root, string fn) 
+void Dictionary_loading(Node* root, string fn) 
 {
     ifstream dictionary;
     dictionary.open(fn.c_str());
     if (!dictionary.is_open()) 
     {
         cout << "Could not open Dictionary file" << endl;
-        return false;
+        return;
     }
     while (!dictionary.eof()) 
     {
@@ -145,7 +145,7 @@ bool Dictionary_loading(Node* root, string fn)
         insert(root, s);
     }
     dictionary.close();
-    return true;
+    return;
 }
 
 
@@ -159,10 +159,11 @@ int main()
     {
         cout << endl
             << endl;
-        cout << "Welcome to the Auto Complete Application #The fastest searching" << endl << endl;
+        cout << "Welcome to the Auto Complete Application \n#The fastest searching Tool" << endl << endl;
         cout << "Interactive mode, press " << endl;
-        cout << "1: Auto start Feature" << endl;
-        cout << "2: Quit" << endl
+        cout << "1: Auto Complete Word Feature - Suggestion of words" << endl;
+        cout << "2: Spell Checking Utility" << endl;
+        cout << "3: Quit the application" << endl
             << endl;
         cin >> mode;
 
@@ -176,18 +177,66 @@ int main()
             transform(s.begin(), s.end(), s.begin(), ::tolower);
             vector<string> listOfWords;
             start(root, s, listOfWords);
-                cout << "Auto start reply :" << endl;
+                cout << "Auto complete :" << endl;
                 for (int i = 0; i < listOfWords.size(); i++) {
                     cout << " \t     " << listOfWords[i] << endl;
+                }
+
+            char select;
+            cout << "Do you wish to use the application? (y/n)" << endl;
+            cin >> select;
+            if(select == 'y')
+            {
+                cout << endl << endl << "Redirecting to the main menu.." << endl;
+                continue;
             }
-            continue;
+            else{
+                cout << "Quiting the applciation" << endl;
+                cout << "Thank you for using our services!" << endl;
+                return 0;
+            }
+                
         }
+        
+
         case '2':
+        {
+            string spell;
+            cout << "Enter the word for spell checking: ";
+            cin >> spell;
+
+            bool result = word_search(root, spell);
+
+            if(result)
+            {
+                cout << "The entered word is correct!" << endl;
+            }
+            else
+            {
+                cout << "The entered word is incorrect!" << endl;
+            }
+
+            char select;
+            cout << "Do you wish to use the application? (y/n)" << endl;
+            cin >> select;
+            if(select == 'y')
+            {
+                cout << endl << endl << "Redirecting to the main menu.." << endl << endl << endl;
+                continue;
+            }
+            else{
+                cout << "Quiting the applciation" << endl;
+                cout << "Thank you for using our services!" << endl;
+                return 0;
+            }
+        }
+
+        case '3':
             delete root;
             return 0;
         default:
             cout << "Invalid input!";
-            cout << "\nEnter either 1 or 2..";
+            cout << "\nEnter either 1,2 or 3.." << endl;
             continue;
         }
     }
