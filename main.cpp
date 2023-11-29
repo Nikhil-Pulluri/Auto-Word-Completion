@@ -5,7 +5,10 @@
 #include <string>
 #include <cstring>
 #include <algorithm>
+#include <chrono>
+
 using namespace std;
+using namespace chrono;
 
 struct Node 
 {
@@ -112,7 +115,7 @@ void TRIE_Traversal(Node* current, char* s, vector<string>& res, bool& loop)
     }
 }
 
-void start(Node* root, string s, vector<string>& res) 
+void auto_start(Node* root, string s, vector<string>& res) 
 {
     Node* current = root;
     for (int i = 0; i < s.length(); i++) 
@@ -154,7 +157,13 @@ int main()
     Node* root = create(' ');
     char mode;
     cout << "Loading the dictionary file" << endl;
+    auto start = high_resolution_clock::now();
     Dictionary_loading(root, "dictionary.txt");
+
+    auto stop = high_resolution_clock::now();
+                auto duration = duration_cast<milliseconds>(stop - start);
+                cout << "Total words in the dictionary: 235887" << endl;
+                cout << "Execution time for loading the dixtioanry: " << duration.count() << " milliseconds\n" << endl << endl;
     while (1) 
     {
         cout << endl
@@ -174,13 +183,20 @@ int main()
             string s;
             cout << "Enter the prefix word : ";
             cin >> s;
+            auto start = high_resolution_clock::now();
             transform(s.begin(), s.end(), s.begin(), ::tolower);
             vector<string> listOfWords;
-            start(root, s, listOfWords);
+            auto_start(root, s, listOfWords);
                 cout << "Auto complete :" << endl;
                 for (int i = 0; i < listOfWords.size(); i++) {
                     cout << " \t     " << listOfWords[i] << endl;
                 }
+                auto stop = high_resolution_clock::now();
+                auto duration = duration_cast<milliseconds>(stop - start);
+
+                cout << "Total words suggested : " << listOfWords.size() << endl;
+
+                cout << "Execution time: " << duration.count() << " milliseconds\n" << endl << endl;
 
             char select;
             cout << "Do you wish to use the application? (y/n)" << endl;
@@ -205,6 +221,8 @@ int main()
             cout << "Enter the word for spell checking: ";
             cin >> spell;
 
+            auto start = high_resolution_clock::now();
+
             bool result = word_search(root, spell);
 
             if(result)
@@ -215,6 +233,11 @@ int main()
             {
                 cout << "The entered word is incorrect!" << endl;
             }
+
+            auto stop = high_resolution_clock::now();
+                auto duration = duration_cast<milliseconds>(stop - start);
+
+                cout << "Execution time: " << duration.count() << " milliseconds\n" << endl << endl;
 
             char select;
             cout << "Do you wish to use the application? (y/n)" << endl;
