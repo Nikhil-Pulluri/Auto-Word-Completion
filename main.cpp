@@ -38,7 +38,7 @@ Node* child_locator(Node* current, char c)
     return NULL;
 }
 
-void insert(Node* root, string s) 
+void insert(Node* root, string s) // Time Complexity: O(L), L = Length of the string
 {
     Node* current = root;
     if (s.length() == 0) 
@@ -64,7 +64,7 @@ void insert(Node* root, string s)
     }
 }
 
-bool word_search(Node* root, string s) 
+bool word_search(Node* root, string s) // Time Complexity: O(L), L = Length of the string
 {
     Node* current = root;
     while (current != NULL) 
@@ -84,9 +84,9 @@ bool word_search(Node* root, string s)
     return false;
 }
 
-void TRIE_Traversal(Node* current, char* s, vector<string>& res, bool& loop) 
-{
-    char k[100] = { 0 };
+void TRIE_Traversal(Node* current, char* s, vector<string>& res, bool& loop) // Time Complexity: O(k*h),
+{                                                                            //  k = number of suggestions
+    char k[100] = { 0 };                                                     // h = Height of the tree
     char aa[2] = { 0 };
     if (loop) 
     {
@@ -123,7 +123,7 @@ void auto_start(Node* root, string s, vector<string>& res)
         Node* tmp = child_locator(current, s[i]);
         if (tmp == NULL)
             return;
-        current = tmp;
+        current = tmp;                 
     }
     char c[100];
     strcpy(c, s.c_str());
@@ -132,9 +132,9 @@ void auto_start(Node* root, string s, vector<string>& res)
     return;
 }
 
-void Dictionary_loading(Node* root, string fn) 
-{
-    ifstream dictionary;
+void Dictionary_loading(Node* root, string fn) // Time Complexity: O(n*m)
+{                                              // n = Number of words in the dictionary
+    ifstream dictionary;                       // m = Average lenght of all the words in the dictionary
     dictionary.open(fn.c_str());
     if (!dictionary.is_open()) 
     {
