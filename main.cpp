@@ -95,7 +95,7 @@ void TRIE_Traversal(Node* current, char* s, vector<string>& res, bool& loop) // 
             if (current->end == true) 
             {
                 res.push_back(s);
-                if (res.size() > 300)
+                if (res.size() >= 100)
                     loop = false;
             }
             vector<Node*> child = current->children;
